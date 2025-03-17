@@ -188,3 +188,5 @@ article.errors.full_messages
 ```
 
 This guide should help you get the application up and running, understand the naming conventions, and interact with the `Article` model effectively.
+
+
