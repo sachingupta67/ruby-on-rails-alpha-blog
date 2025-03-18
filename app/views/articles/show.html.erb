@@ -1,3 +1,6 @@
 <h1>Article Details page </h1>
 <p>Title: <%= @article.title %> </p>
 <p>Description: <%= @article.description %></p>
+<%= link_to 'Edit article', edit_article_path(@article) %> | <%= link_to 'Delete article', article_path(@article),method: :delete %> 
+<br/>
+<%= link_to 'Return to Articles Listing', articles_path %>
