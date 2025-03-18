@@ -25,4 +25,27 @@ class ArticlesController < ApplicationController
    def new
      @article = Article.new
    end
+
+   def edit
+    @article = Article.find(params[:id])
+   end
+
+   def update
+    @article = Article.find(params[:id])
+   if @article.update(params.require(:article).permit(:title, :description))
+   flash[:notice] = "Article updated successfully"
+     redirect_to @article
+   else
+     puts @article.errors.full_messages
+     render "edit", status: :unprocessable_entity
+   end
+   end
+
+   def destroy
+    puts "dstory"
+    @article = Article.find(params[:id])
+    @article.destroy
+    flash[:notice] = "Article deleted successfully"
+    redirect_to articles_path
+   end
 end
