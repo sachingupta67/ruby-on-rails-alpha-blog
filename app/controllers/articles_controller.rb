@@ -1,16 +1,17 @@
 class ArticlesController < ApplicationController
+    before_action :set_article, only: [ :show, :edit, :update, :destroy ]
     def index
         @articles = Article.all # fetch all articles from the database and assign to @articles variable.
     end
    # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
    def show
-    @article = Article.find(params[:id]) # article/1 , :id `params[:id]` # @ to make it instance to access in the template
+     # article/1 , :id `params[:id]` # @ to make it instance to access in the template
    end
 
    def create
      #  @article = Article.new(params[:article]) it will not work , give forbiden error message
 
-     @article = Article.new(params.require(:article).permit(:title, :description))
+     @article = Article.new(article_params)
     if @article.save
 
         flash[:notice] = "Article created successfully"
@@ -27,12 +28,10 @@ class ArticlesController < ApplicationController
    end
 
    def edit
-    @article = Article.find(params[:id])
    end
 
    def update
-    @article = Article.find(params[:id])
-   if @article.update(params.require(:article).permit(:title, :description))
+   if @article.update(article_params)
    flash[:notice] = "Article updated successfully"
      redirect_to @article
    else
@@ -43,9 +42,17 @@ class ArticlesController < ApplicationController
 
    def destroy
     puts "dstory"
-    @article = Article.find(params[:id])
     @article.destroy
     flash[:notice] = "Article deleted successfully"
     redirect_to articles_path
+   end
+
+   private
+   def set_article
+   @article = Article.find(params[:id])
+   end
+
+   def article_params
+    params.require(:article).permit(:title, :description)
    end
 end
