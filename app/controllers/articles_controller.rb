@@ -11,12 +11,18 @@ class ArticlesController < ApplicationController
      #  @article = Article.new(params[:article]) it will not work , give forbiden error message
 
      @article = Article.new(params.require(:article).permit(:title, :description))
-     @article.save
+    if @article.save
 
+        flash[:notice] = "Article created successfully"
      #  redirect_to article_path(@article.id)
      redirect_to @article
+    else
+     puts @article.errors.full_messages
+      render "new", status: :unprocessable_entity # unprocessable_entity its force -render to show the error message
+    end
    end
 
    def new
+     @article = Article.new
    end
 end
